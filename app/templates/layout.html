@@ -1,13 +1,85 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Say somthingkk</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <script src="static/moment-with-locales.min.js" type="text/javascript"></script>
+        <script src="static/js/moment-with-locales.min.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
     </head>
     <body>
+        <div class="container">
+          <h3>Vote problem</h3>
+          <ul class="nav nav-tabs">
+            <li id="vote" class="tabs active"><a href="#">Vote</a></li>
+            <li id="result" class="tabs"><a href="#">Result of votes</a></li>
+          </ul>
+          <br>
+          <div id="content">
+              <div id="vote-content" class="content">
+                <h1>What is your prefered restaurant for today</h1>
+
+                <form id="formVote">
+                    <label for="employee">Who are you:</label>
+                    <select class="form-control" id="employee" name="employee">
+                      {% for employee in employees %}
+                          <option value="{{ employee }}">{{ employee }}</option>
+                      {% endfor %}
+                    </select>
+                    <label for="restaurant">Choose a restaurant:</label>
+                    <select class="form-control" id="restaurant" name="restaurant">
+                      {% for restaurant in restaurants %}
+                          <option value="{{ restaurant }}">{{ restaurant }}</option>
+                      {% endfor %}
+                    </select>
+                    <p><label>Date:</label> <a id="datetimeLabel" name="datetime"></a></p>
+                    <input type="hidden" id="datetime" name="datetime" value="1"/>
+                    <p><button class="btn btn-secondary btn-sm" type="submit">Send Vote</button></p>
+                </form>
+                <div class="alert alert-info alert-vote">
+                    <p class="disclaimer"></p>
+                </div>
+              </div>
+              <div id="result-content" class="content">
+                  <div class="alert">
+                      <strong>Well done!</strong> The restaurant for today is:
+                      <a id="resVote">bla bla</a>
+                    </div>
+              </div>
+          </div>
+        </div>
         {% block content %}{% endblock %}
     </body>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+             restoreDisclaimer();
+        });
+     $(".tabs").click(function(event){
+         var NowMoment = moment().format('DD/MM/YYYY');
+         $('#datetimeLabel').text(NowMoment);
+         $('#datetime').val(NowMoment);
+
+         $('.tabs').removeClass('active');
+         $('#' + event.target.parentNode.id).addClass('active');
+
+         $('.content').hide();
+         $('#' + event.target.parentNode.id + '-content').show()
+
+
+        restoreDisclaimer()
+    });
+
+
+    function restoreDisclaimer(){
+        $('.alert-vote').removeClass('alert-success alert-warning alert-info');
+        $('.alert-vote').addClass('alert-info');
+        $('.disclaimer').text('The user can only vote once a day.');
+    }
+    </script>
+
+    <script src="static/js/vote.js" type="text/javascript"></script>
 </html>
