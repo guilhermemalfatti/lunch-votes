@@ -1,6 +1,7 @@
 from app.config import Config
 from app.database.db import DB
 import random
+import datetime
 class VoteManager:
 
     def __init__(self):
@@ -12,12 +13,21 @@ class VoteManager:
         self.restaurants = config.get('general', 'restaurants').split(',')
         self.db = DB()
         self.restaurant_prefix = "restaurant."
+        now = datetime.datetime.now()
+        self.week_number = str(datetime.date(now.year, now.month, now.day).isocalendar()[1])
 
 
     def get_employees(self):
         return self.employees
 
     def get_restaurants(self):
+        result = self.db.get_list(self.restaurant_prefix + 'week.' + self.week_number)
+
+        #removing the duplicated values, avoid issue inside the loop
+        result = list(set(result))
+        #remove the restaurante already taken on this week
+        for i in result:
+            self.restaurants.remove(i)
         return self.restaurants
 
     def user_vote(self, data):
@@ -29,7 +39,7 @@ class VoteManager:
         #caso contrario o voto sera validado
         else:
             self.db.set(data['employee'], data['datetime'])
-            self.db.append(self.restaurant_prefix + data['datetime'] + "." + data['restaurant'], 1)
+            self.db.push(self.restaurant_prefix + data['datetime'] + "." + data['restaurant'], 1)
             return {'message': 'Your vote was stored', 'status': 'success'}
 
     def get_result(self, date):
@@ -47,11 +57,11 @@ class VoteManager:
 
         # that's mean, no one has voted yet
         if not result:
-            return None
+            return "No one voted yet."
 
         #getting the votes for each restaurant
         for i in result:
-            restaurant_list[i] = len(self.db.get(i))
+            restaurant_list[i] = len(self.db.get_list(i))
 
         #identify what is the greater value of votes
         max_vote = max(restaurant_list.values())
@@ -62,12 +72,13 @@ class VoteManager:
                 greater_votes.append(i)
 
         #don't has tie votes, so return the greater
-        if(len(greater_votes) == 1):
-            #defining the restaurant for a week
-            self.db.append(self.restaurant_prefix + 'week', greater_votes[0])
-            return greater_votes[0]
-        #in case of tie votes, the system will randomly find the restaurant
+        if (len(greater_votes) == 1):
+            selected_restaurant = greater_votes[0].split('.')[2]
         else:
-            selected_restaurant = random.choice(greater_votes)
-            self.db.append(self.restaurant_prefix + 'week', selected_restaurant)
-            return selected_restaurant
+            selected_restaurant = random.choice(greater_votes).split('.')[2]
+
+        #setting the restaurant for the curretn week
+        self.db.push(self.restaurant_prefix + 'week.' + self.week_number, selected_restaurant)
+        # setting up the restaurant for the day
+        self.db.set(self.restaurant_prefix + date, selected_restaurant)
+        return selected_restaurant

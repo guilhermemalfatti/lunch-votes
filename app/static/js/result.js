@@ -19,8 +19,7 @@
                 encode          : true
             })
             .done(function(data) {
-                console.log(data)
-
+                $('.alert-result').text(data);
             });
 
             // stop the form from submitting the normal way and refreshing the page

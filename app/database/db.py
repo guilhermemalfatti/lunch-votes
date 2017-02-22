@@ -16,3 +16,9 @@ class DB:
 
     def append(self, key, message):
         self.db.append(key, message)
+
+    def push(self, key, message):
+        self.db.lpush(key, message)
+
+    def get_list(self, key, start=0, end=-1):
+        return self.db.lrange(key, start, end)
