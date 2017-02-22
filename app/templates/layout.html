@@ -35,7 +35,7 @@
                           <option value="{{ restaurant }}">{{ restaurant }}</option>
                       {% endfor %}
                     </select>
-                    <p><label>Date:</label> <a id="datetimeLabel" name="datetime"></a></p>
+                    <p><label>Date:</label> <a class="datetimeLabel" name="datetime"></a></p>
                     <input type="hidden" id="datetime" name="datetime" value="1"/>
                     <p><button class="btn btn-secondary btn-sm" type="submit">Send Vote</button></p>
                 </form>
@@ -44,10 +44,12 @@
                 </div>
               </div>
               <div id="result-content" class="content">
-                  <div class="alert">
-                      <strong>Well done!</strong> The restaurant for today is:
-                      <a id="resVote">bla bla</a>
-                    </div>
+                  <p><label>Date:</label><a class="datetimeLabel"></a></p>
+                  <button id="getResult" class="btn btn-secondary btn-sm" type="button">Get result</button>
+                  </br>
+                  <div class="alert-result alert alert-info">
+                      Click on the above button to get the restaurant for today, whether more than one has the same vote numbers the sistem will randomically choose one of then.
+                  </div>
               </div>
           </div>
         </div>
@@ -56,30 +58,34 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-             restoreDisclaimer();
+            restoreDisclaimer();
+            //update the date label
+            var nowMoment = moment().format('DD/MM/YYYY');
+            //This line update in both tabs
+            $('.datetimeLabel').text(nowMoment);
+            $('#datetime').val(nowMoment);
         });
-     $(".tabs").click(function(event){
-         var NowMoment = moment().format('DD/MM/YYYY');
-         $('#datetimeLabel').text(NowMoment);
-         $('#datetime').val(NowMoment);
+        //update the content when the tabs change
+         $(".tabs").click(function(event){
 
-         $('.tabs').removeClass('active');
-         $('#' + event.target.parentNode.id).addClass('active');
+             $('.tabs').removeClass('active');
+             $('#' + event.target.parentNode.id).addClass('active');
 
-         $('.content').hide();
-         $('#' + event.target.parentNode.id + '-content').show()
+             $('.content').hide();
+             $('#' + event.target.parentNode.id + '-content').show()
 
 
-        restoreDisclaimer()
-    });
+            restoreDisclaimer()
+        });
 
-
-    function restoreDisclaimer(){
-        $('.alert-vote').removeClass('alert-success alert-warning alert-info');
-        $('.alert-vote').addClass('alert-info');
-        $('.disclaimer').text('The user can only vote once a day.');
-    }
+        //restore the main disclaimer
+        function restoreDisclaimer(){
+            $('.alert-vote').removeClass('alert-success alert-warning alert-info');
+            $('.alert-vote').addClass('alert-info');
+            $('.disclaimer').text('The user can only vote once a day.');
+        }
     </script>
 
     <script src="static/js/vote.js" type="text/javascript"></script>
+    <script src="static/js/result.js" type="text/javascript"></script>
 </html>

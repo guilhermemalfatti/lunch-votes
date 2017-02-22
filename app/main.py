@@ -29,7 +29,11 @@ class Recordvote(Resource):
 class Resultvote(Resource):
     def get(self):
         try:
-            return {'message': "teste"}, 200
+            vm = VoteManager()
+
+            date = request.args['datetime']
+            result = vm.get_result(date)
+            return result, 200
         except Exception as err:
             return {'message': err}, 500
 
