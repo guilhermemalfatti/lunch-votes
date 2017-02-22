@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, session
 import redis
 from app.votemanger.manager import VoteManager
-
+import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'F34TF$($e34D';
 
 @app.route('/')
 def home():
     vm = VoteManager()
-    r = redis.StrictRedis(decode_responses=True)
+    #r = redis.StrictRedis(decode_responses=True)
+    r = redis.from_url(os.environ.get("REDIS_URL"))
     r.set("mykey", "anothervalue")
     employees_list = r.get("mykey")#vm.get_employees()
     restaurant_list = vm.get_restaurants()
