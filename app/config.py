@@ -12,7 +12,7 @@ class Config(metaclass=Singleton):
     def __init__(self):
         logger.info('start read general configs')
         config = ConfigParser()
-        config.read(os.path.abspath(os.path.dirname(__file__)), 'config.ini')
+        config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
 
         self.config = config
 
