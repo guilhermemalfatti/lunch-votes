@@ -9,6 +9,9 @@ api = Api(app)
 
 @app.route('/')
 def home():
+    """
+    Initial method, responsible to redner the web application
+    """
     logger.info('start render')
     try:
         vm = VoteManager()
@@ -29,6 +32,9 @@ def home():
 
 class Recordvote(Resource):
     def post(self):
+        """
+        Method to save a vote for each user
+        """
         logger.info('start record vote.')
         try:
             logger.debug('parameters of vote: ' + str(request.form))
@@ -44,6 +50,9 @@ class Recordvote(Resource):
 
 class Resultvote(Resource):
     def get(self):
+        """
+        methos to get the result of votes
+        """
         logger.info('start result vote.')
         try:
             vm = VoteManager()
@@ -62,6 +71,9 @@ class Resultvote(Resource):
 
 class AvailableRestaurant(Resource):
     def get(self):
+        """
+        Method to get the available restaurant for a specifc day
+        """
         logger.info('start available restaurant.')
         try:
             vm = VoteManager()

@@ -6,8 +6,15 @@ import datetime
 
 
 class VoteManager:
+    """
+
+    This class provides a instance to the vote manager of project.
+    """
 
     def __init__(self):
+        """
+        Starts a Config instance
+        """
 
         # Get configurations
         config = Config().get_config()
@@ -20,10 +27,16 @@ class VoteManager:
         self.week_number = str(datetime.date(now.year, now.month, now.day).isocalendar()[1])
 
     def get_employees(self):
+        """
+        return the list of available employee
+        """
         logger.info('start get employee. ')
         return self.employees
 
     def get_restaurants(self):
+        """
+        return a list of available restaurants
+        """
         logger.info('start get available restaurant. ')
 
         try:
@@ -45,6 +58,9 @@ class VoteManager:
             return None
 
     def user_vote(self, data):
+        """
+        Handle the vote by user
+        """
         logger.info('start user vote.')
         try:
             logger.debug('employee: ' + str(data['employee']))
@@ -67,6 +83,9 @@ class VoteManager:
             return None
 
     def get_result(self, date):
+        """
+        return the result of votes
+        """
         logger.info('start get result')
         try:
             # get the votes by restaurant
