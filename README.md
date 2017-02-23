@@ -21,7 +21,7 @@ Toda aplicação utiliza uma biblioteca de logs, esta pode ser configurada via a
 
 O projeto conta com três classes principais, são elas:
 
-* VoteManager
+* VoteManager, 
 Esta classe é o core da implementação, pois é responsável por manter todos critérios de aceitação (somente um voto diário por pessoa, o mesmo restaurante não pode ser repetido durante a semana corrente e mostrar o resultado da votação).
 Toda lógica embutida nesta classe é gerenciada através da base de dados do Redis, utilizando chave - valor, por exemplo:
 
@@ -30,10 +30,10 @@ chave restaurant.<date>.<restauranteName>,  contém a quantidade de votos para d
 chave restaurant.<date>,  contém o restaurante definido para a data atrelada na chave.
 chave restaurant.week.<weekNumber>, contém a lista de resturantes já definidos na semana <weekNumber>
 
-* Config
+* Config, 
 Classe responsável por interpretar o arquivo de configuração do projeto.
 
-* DB
+* DB, 
 Classe responsável por gerenciar acesso a base de dados Redis.
 
 
