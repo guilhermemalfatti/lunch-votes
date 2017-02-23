@@ -7,7 +7,6 @@ import datetime
 
 class VoteManager:
     """
-
     This class provides a instance to the vote manager of project.
     """
 
