@@ -19,7 +19,7 @@
                 encode          : true
             })
             .done(function(data) {
-                $('.alert-result').text(data);
+                $('.alert-result').text('The result is: '+ data);
             });
 
             // stop the form from submitting the normal way and refreshing the page
