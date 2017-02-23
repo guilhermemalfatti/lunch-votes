@@ -1,15 +1,14 @@
 /**
  * Created by malfatti on 22/02/17.
  */
-        $(document).ready(function(){
-             var NowMoment = moment().format('DD/MM/YYYY');
-             $('#datetimeLabel').text(NowMoment);
-             $('#datetime').val(NowMoment);
+        //restore the main disclaimer
+        function restoreDisclaimer(){
+            $('.alert-vote').removeClass('alert-success alert-warning alert-info');
+            $('.alert-vote').addClass('alert-info');
+            $('.disclaimer').text('The user can only vote once a day.');
+        }
 
-             $('#result-content').hide()
-
-        });
-
+        //event of vote - send the vote to backend
         $('#vote').click(function(){
              $.ajax({
                 type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
@@ -26,8 +25,7 @@
                 });
             });
 
-
-
+            restoreDisclaimer();
         });
 
          // process the form
@@ -56,7 +54,10 @@
                 }else{
                     $('.alert-vote').addClass('alert-warning');
                 }
-                 $('.disclaimer').text(data.message);
+                $('.disclaimer').text(data.message);
+
+                $('.disclaimer').fadeOut(500);
+                $('.disclaimer').fadeIn(500);
 
             });
 
