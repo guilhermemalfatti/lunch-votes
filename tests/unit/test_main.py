@@ -1,22 +1,19 @@
 from unittest import TestCase
 from app import main
 from unittest.mock import patch, MagicMock, Mock
-from flask import Flask
-
-app = Flask(__name__)
-
 from app.main import app
+
 
 def render_template(a, **context):
     return a, context
 
-class MockVoteManager:
 
+class MockVoteManager:
     def get_employees(self):
-        return [1,2]
+        return [1, 2]
 
     def get_restaurants(self):
-        return [1,2]
+        return [1, 2]
 
     def user_vote(self, data):
         return {'message': 'mock message', 'status': 'success'}
@@ -37,7 +34,6 @@ class TestMain(TestCase):
         self.assertIsNotNone(result[1]['employees'], 'The list should be not NONE')
         self.assertIsNotNone(result[1]['restaurants'], 'The list should be not NONE')
 
-
     @patch('app.main.VoteManager')
     def test_RecordVote_status_code(self, mockVotemanager):
         mockVotemanager.side_effect = Mock(return_value=MockVoteManager())
@@ -56,6 +52,3 @@ class TestMain(TestCase):
         with app.test_client() as c:
             response = c.get('/result')
             self.assertEquals(response.status_code, 200, 'The status code should be 200')
-
-
-

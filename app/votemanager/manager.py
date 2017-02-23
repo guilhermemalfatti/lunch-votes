@@ -19,7 +19,6 @@ class VoteManager:
         now = datetime.datetime.now()
         self.week_number = str(datetime.date(now.year, now.month, now.day).isocalendar()[1])
 
-
     def get_employees(self):
         logger.info('start get employee. ')
         return self.employees
@@ -67,11 +66,10 @@ class VoteManager:
             logger.error('ERROR' + str(err))
             return None
 
-
     def get_result(self, date):
         logger.info('start get result')
         try:
-            #get the votes by restaurant
+            # get the votes by restaurant
             restaurant_list = dict()
             greater_votes = []
 
@@ -83,7 +81,7 @@ class VoteManager:
                 logger.info('restaurant selected:' + str(result))
                 return result
 
-            #getting all restaurant keys on redis
+            # getting all restaurant keys on redis
             result = self.db.get_keys(self.restaurant_prefix + date)
             logger.debug('all restaurant voted: ' + str(result))
 
@@ -92,21 +90,21 @@ class VoteManager:
                 logger.debug('No one voted yet.')
                 return "No one voted yet."
 
-            #getting the votes for each restaurant
+            # getting the votes for each restaurant
             for i in result:
                 restaurant_list[i] = len(self.db.get_list(i))
             logger.debug('votes to eache restaurant: ' + str(restaurant_list))
 
-            #identify what is the greater value of votes
+            # identify what is the greater value of votes
             max_vote = max(restaurant_list.values())
             logger.debug('max vote: ' + str(max_vote))
 
-            #Identifying if there was a tie vote
+            # Identifying if there was a tie vote
             for i in restaurant_list:
                 if restaurant_list[i] == max_vote:
                     greater_votes.append(i)
 
-            #don't has tie votes, so return the greater
+            # don't has tie votes, so return the greater
             if (len(greater_votes) == 1):
                 selected_restaurant = greater_votes[0].split('.')[2]
                 logger.debug('restaurant selected by majority: ' + str(selected_restaurant))
@@ -117,7 +115,7 @@ class VoteManager:
 
             logger.info('restaurant selected:' + str(selected_restaurant))
 
-            #setting the restaurant for the curretn week
+            # setting the restaurant for the curretn week
             self.db.push(self.restaurant_prefix + 'week.' + self.week_number, selected_restaurant)
             # setting up the restaurant for the day
             self.db.set(self.restaurant_prefix + date, selected_restaurant)

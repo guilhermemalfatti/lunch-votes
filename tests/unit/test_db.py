@@ -1,10 +1,11 @@
 from unittest import TestCase
-from app import main
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch
 from app.database.db import DB
+
 
 def from_url(a, **args):
     return mockRedis()
+
 
 class mockRedis:
 
@@ -12,21 +13,21 @@ class mockRedis:
         return key
 
     def keys(self, pattern):
-        return  pattern
+        return pattern
 
     def set(self, key, message):
         self.key = key
         self.message = message
 
-    def lpush(self,key, message):
+    def lpush(self, key, message):
         self.key = key
         self.message = message
 
     def lrange(self, key, start, end):
         return ['mockList']
 
-class TestDb(TestCase):
 
+class TestDb(TestCase):
     @patch('app.database.db.redis.from_url')
     def test_get(self, mockRedis):
         mockRedis.side_effect = from_url

@@ -6,6 +6,7 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
+
 @app.route('/')
 def home():
     logger.info('start render')
@@ -40,6 +41,7 @@ class Recordvote(Resource):
             logger.error('ERROR' + str(err))
             return {'message': err}, 500
 
+
 class Resultvote(Resource):
     def get(self):
         logger.info('start result vote.')
@@ -56,6 +58,7 @@ class Resultvote(Resource):
         except Exception as err:
             logger.error('ERROR' + str(err))
             return {'message': err}, 500
+
 
 class AvailableRestaurant(Resource):
     def get(self):

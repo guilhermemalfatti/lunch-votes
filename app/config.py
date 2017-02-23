@@ -3,6 +3,7 @@ from configparser import ConfigParser
 from app.util.singleton import Singleton
 from app import logger
 
+
 class Config(metaclass=Singleton):
     """ Config singleton
 
@@ -13,7 +14,6 @@ class Config(metaclass=Singleton):
         logger.info('start read general configs')
         config = ConfigParser()
         config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.ini'))
-
 
         self.config = config
 

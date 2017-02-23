@@ -1,13 +1,12 @@
 from unittest import TestCase
-from app import main
 from unittest.mock import patch, MagicMock, Mock
 from app.votemanager.manager import VoteManager
 
-class MockDB:
 
+class MockDB:
     def get_list(self, a):
         if a == 'mockkey.mockkey.rest01':
-            return [1,1,1]
+            return [1, 1, 1]
         return [3]
 
     def get(self, a):
@@ -30,8 +29,8 @@ class MockDB:
 def mockGet(self, a):
     return a
 
-class TestManager(TestCase):
 
+class TestManager(TestCase):
     @patch('app.votemanager.manager.DB')
     @patch('app.votemanager.manager.Config')
     def test_get_employee(self, mockConfig, mockDB):
@@ -39,11 +38,10 @@ class TestManager(TestCase):
         mockConfig.side_effect = Mock(return_value=MagicMock())
 
         vm = VoteManager()
-        vm.employees = [1,2]
+        vm.employees = [1, 2]
         result = vm.get_employees()
 
-        self.assertEqual(result, [1,2], 'The result should be equal.')
-
+        self.assertEqual(result, [1, 2], 'The result should be equal.')
 
     @patch('app.votemanager.manager.DB')
     @patch('app.votemanager.manager.Config')
@@ -52,7 +50,7 @@ class TestManager(TestCase):
         mockConfig.side_effect = Mock(return_value=MagicMock())
 
         vm = VoteManager()
-        vm.restaurants = [3,4]
+        vm.restaurants = [3, 4]
         result = vm.get_restaurants()
 
         self.assertEqual(result, [4], 'The result should be equal.')
@@ -81,7 +79,6 @@ class TestManager(TestCase):
         self.assertEqual(result['message'], 'Your vote was stored', 'The message should be equal.')
         self.assertEqual(result['status'], 'success', 'The status should be equal.')
 
-
     @patch('app.votemanager.manager.DB')
     @patch('app.votemanager.manager.DB.get')
     @patch('app.votemanager.manager.Config')
@@ -89,7 +86,7 @@ class TestManager(TestCase):
         mockdb = MockDB()
         mockDB.side_effect = Mock(return_value=mockdb)
         mockConfig.side_effect = Mock(return_value=MagicMock())
-        mockdbGet.side_effect =  Mock(return_value=mockGet)
+        mockdbGet.side_effect = Mock(return_value=mockGet)
 
         vm = VoteManager()
 
@@ -103,4 +100,3 @@ class TestManager(TestCase):
         mockdb.mock_list = ['mockkey.mockkey.rest01', 'rest02']
         result = vm.get_result('mockData02')
         self.assertEqual(result, 'rest01', 'The result should be equal.')
-

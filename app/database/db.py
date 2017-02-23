@@ -2,11 +2,11 @@ import redis
 import os
 from app import logger
 
+
 class DB:
     def __init__(self):
 
         self.db = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
-        #self.db = redis.from_url('localhost', decode_responses=True)
 
     def get(self, key):
         logger.debug('db get key: ' + str(key) + ' value: ' + str(self.db.get(key)))
@@ -21,7 +21,7 @@ class DB:
         self.db.set(key, message)
 
     def push(self, key, message):
-        logger.debug('push key: '+ str(key) + ' value: ' + str(message))
+        logger.debug('push key: ' + str(key) + ' value: ' + str(message))
         self.db.lpush(key, message)
 
     def get_list(self, key, start=0, end=-1):
