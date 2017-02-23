@@ -6,6 +6,7 @@ class DB:
     def __init__(self):
 
         self.db = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
+        #self.db = redis.from_url('localhost', decode_responses=True)
 
     def get(self, key):
         logger.debug('db get key: ' + str(key) + ' value: ' + str(self.db.get(key)))
