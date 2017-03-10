@@ -25,10 +25,13 @@ O projeto conta com três classes principais, são elas:
 Esta classe é o core da implementação, pois é responsável por manter todos critérios de aceitação (somente um voto diário por pessoa, o mesmo restaurante não pode ser repetido durante a semana corrente e mostrar o resultado da votação).
 Toda lógica embutida nesta classe é gerenciada através da base de dados do Redis, utilizando chave - valor, por exemplo:
 
-chave <userName>, especifica que o determinado usuário já efetuou seu voto diário.
-chave restaurant.<date>.<restauranteName>,  contém a quantidade de votos para determinado restaurante.
-chave restaurant.<date>,  contém o restaurante definido para a data atrelada na chave.
-chave restaurant.week.<weekNumber>, contém a lista de resturantes já definidos na semana <weekNumber>
+chave `<userName>`, especifica que o determinado usuário já efetuou seu voto diário.
+
+chave `restaurant.<date>.<restauranteName>`,  contém a quantidade de votos para determinado restaurante.
+
+chave `restaurant.<date>`,  contém o restaurante definido para a data atrelada na chave.
+
+chave `restaurant.week.<weekNumber>`, contém a lista de resturantes já definidos na semana `<weekNumber>`
 
 * Config, 
 Classe responsável por interpretar o arquivo de configuração do projeto.
