@@ -50,5 +50,5 @@ Redis é uma boa opção pois prevê eficiência nas transações, é uma base d
 Questões de melhorias na implementação seriam possíveis, como adicionar um TTL em cada chave do Redis para que as mesmas não ficassem eternamente armazenadas na base de dados, pois algumas informações não são relevantes de serem armazenadas.
 
 link:
-https://lunch-vote-malfatti.
+https://lunch-vote-malfatti.herokuapp.com/
 
